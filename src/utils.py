@@ -1,4 +1,4 @@
-def lter_by_country(planes, countries):
+def filter_by_country(planes, countries):
     return [p for p in planes if p.country in countries]
 
 def sort_by_altitude(planes):

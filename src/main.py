@@ -1,12 +1,7 @@
 from src.api.aeroplane_api import AeroplanesAPI
 from src.models.aeroplane import Aeroplane
 from src.storage.json_saver import JSONSaver
-from src.utils.utils import (
-    filter_by_country,
-    sort_by_altitude,
-    get_top_n,
-    filter_by_altitude_range,
-)
+from src.utils import filter_by_altitude_range, sort_by_altitude, get_top_n, filter_by_country
 
 def user_interaction():
     api = AeroplanesAPI()

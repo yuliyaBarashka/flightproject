@@ -1,51 +1,58 @@
-import requests
+from requests import get
 from src.api.base_api import BaseAPI
+
 
 class AeroplanesAPI(BaseAPI):
 
+    def __init__(self):
+        self.openstreetmap_url = 'https://nominatim.openstreetmap.org/search'
+        self.opensky_url = 'https://opensky-network.org/api/states/all'
+
     def get_coordinates(self, country: str):
         try:
-            url = "https://nominatim.openstreetmap.org/search"
-            params = {
-                "q": country,
-                "format": "json"
-            }
+            headers = {'User-Agent': 'test-app/1.0'}
+            params = {'country': country, 'format': 'json', 'limit': 1}
 
-            response = requests.get(url, params=params, timeout=10)
+            response = get(url=self.openstreetmap_url, params=params, headers=headers, timeout=10)
+            response.raise_for_status()
             data = response.json()
 
-            bbox = data[0]["boundingbox"]
+            if not data:
+                print("No data returned from OSM")
+                return None
 
-            return {
-                "south": float(bbox[0]),
-                "north": float(bbox[1]),
-                "west": float(bbox[2]),
-                "east": float(bbox[3]),
+            bbox = data[0]['boundingbox']
+            coords = {
+                'south': float(bbox[0]),
+                'north': float(bbox[1]),
+                'west': float(bbox[2]),
+                'east': float(bbox[3]),
             }
+            print("Coordinates found:", coords)
+            return coords
 
-        except Exception:
+        except Exception as e:
+            print("Error in get_coordinates:", e)
             return None
 
     def get_aeroplanes(self, country: str):
         coords = self.get_coordinates(country)
-
         if not coords:
+            print("No coordinates, returning empty list")
             return []
 
         try:
-            url = "https://opensky-network.org/api/states/all"
-
             params = {
-                "lamin": coords["south"],
-                "lomin": coords["west"],
-                "lamax": coords["north"],
-                "lomax": coords["east"],
+                'lamin': coords['south'],
+                'lamax': coords['north'],
+                'lomin': coords['west'],
+                'lomax': coords['east'],
             }
-
-            response = requests.get(url, params=params, timeout=10)
+            response = get(self.opensky_url, params=params, timeout=10)
+            response.raise_for_status()
             data = response.json()
-
-            return data.get("states", [])
-
-        except Exception:
+            print("Number of aeroplanes received:", len(data.get('states', [])))
+            return data.get('states', [])
+        except Exception as e:
+            print("Error fetching aeroplanes:", e)
             return []
