@@ -1,5 +1,7 @@
 import json
+
 from src.storage.base_storage import BaseStorage
+
 
 class JSONSaver(BaseStorage):
 
@@ -18,7 +20,7 @@ class JSONSaver(BaseStorage):
         try:
             with open(self.filename, "r") as f:
                 return json.load(f)
-        except:
+        except (FileNotFoundError, json.JSONDecodeError):
             return []
 
     def delete(self, plane):

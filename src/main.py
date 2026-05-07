@@ -1,7 +1,8 @@
 from src.api.aeroplane_api import AeroplanesAPI
 from src.models.aeroplane import Aeroplane
 from src.storage.json_saver import JSONSaver
-from src.utils import filter_by_altitude_range, sort_by_altitude, get_top_n, filter_by_country
+from src.utils import filter_by_altitude_range, filter_by_country, get_top_n, sort_by_altitude
+
 
 def user_interaction():
     api = AeroplanesAPI()
@@ -28,6 +29,7 @@ def user_interaction():
     for plane in top_planes:
         print(plane)
         saver.add(plane)
+
 
 if __name__ == "__main__":
     user_interaction()
