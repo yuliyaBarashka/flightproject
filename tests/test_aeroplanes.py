@@ -20,4 +20,3 @@ def test_cast():
     planes = Aeroplane.cast_to_object_list(data)
 
     assert len(planes) == 1
-

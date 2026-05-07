@@ -8,6 +8,7 @@ class AeroplanesAPI(BaseAPI):
     def __init__(self):
         self.openstreetmap_url = 'https://nominatim.openstreetmap.org/search'
         self.opensky_url = 'https://opensky-network.org/api/states/all'
+        self.aeroplanes = None
 
     def get_coordinates(self, country: str):
         try:

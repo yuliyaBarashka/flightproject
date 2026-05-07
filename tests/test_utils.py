@@ -1,11 +1,6 @@
-import pytest
+
 from src.models.aeroplane import Aeroplane
-from src.utils import (
-    filter_by_country,
-    sort_by_altitude,
-    get_top_n,
-    filter_by_altitude_range,
-)
+from src.utils import filter_by_altitude_range, filter_by_country, get_top_n, sort_by_altitude
 
 
 def sample_planes():

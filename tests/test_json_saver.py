@@ -1,6 +1,6 @@
-import os
 import json
-import tempfile
+import os
+
 from src.models.aeroplane import Aeroplane
 from src.storage.json_saver import JSONSaver
 
